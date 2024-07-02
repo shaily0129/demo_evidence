@@ -1,0 +1,1 @@
+select * from coverage_data

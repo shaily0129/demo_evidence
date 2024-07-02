@@ -1,0 +1,67 @@
+<!-- <Details title="Definitions">
+    
+    Definition of metrics in Solutions Targets
+
+    ### Time to Proposal
+
+    Average number of days it takes to create a proposal for a customer
+
+    *Calculation:*
+    Sum of the number of days it took to create each proposal, divided by the number of proposals created
+
+    *Source:*
+    Hubspot
+
+</Details> -->
+
+<!-- <BigLink href='page1'>
+  My Big Link
+</BigLink> -->
+
+<!-- ## title: Evidence uses Markdown
+
+Markdown can be used to write expressively in text.
+
+- it supports lists,
+- **bolding**, _italics_ and `inline code`,
+- links to [external sites](https://google.com) and other [Evidence pages](page1)
+
+{@partial "my-first-partial.md"}
+
+And some content specific to this page.
+
+# This is my first partial
+
+This is some content in the partial.
+
+-- ```python
+-- names = ["Alice", "Bob", "Charlie"]
+
+-- for name in names:
+--     print("Hello, " + name)
+-- ```
+
+> This is a blockquote
+>
+> It can span multiple lines
+>
+> > And can be nested
+
+## Images 🖼️
+
+![Logo](/static/1.jpeg) -->
+
+
+
+<!-- <Dropdown data={categories1} name=category value=category>
+    <DropdownOption value="%" valueLabel="All Categories"/>
+</Dropdown> -->
+
+<!-- <Dropdown name=year>
+    <DropdownOption value=% valueLabel="All Years"/>
+    <DropdownOption value=2019/>
+    <DropdownOption value=2020/>
+    <DropdownOption value=2021/>
+</Dropdown> -->
+
+<!-- test_database.test_data -->
