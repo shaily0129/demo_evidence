@@ -1,0 +1,5 @@
+# This file was automatically generated
+name: database1
+type: duckdb
+options:
+  filename: database1.duckdb
