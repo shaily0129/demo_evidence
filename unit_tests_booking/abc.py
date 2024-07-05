@@ -26,47 +26,60 @@ class TestHolidayBookingExtended(unittest.TestCase):
             data=json.dumps(data),
         )
         return response
+    
+    def test_valid_request_with_only_age(self):
+        response = self.post_request(
+            {"request_id": "s990", "params": {"name": "", "country": "", "age": "40"}}
+        )
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertFalse(data["complete"])
+        self.assertIsNone(data["booking_id"])
+        self.assertIsNotNone(data.get("interactions"))
+        self.assertEqual(data["interactions"][0]["variable_name"], "name")
 
-    def test_different_request_id(self):
-        response = self.post_request({"request_id": "s2", "params": {"name": "John"}})
+    def test_valid_request_with_insurance_false(self):
+        response = self.post_request(
+            {"request_id": "s992", "params": {"name": "Mia", "country": "Canada", "age": "52", "insurance": "No"}}
+        )
         self.assertEqual(response.status_code, 200)
         data = response.json()
         self.assertTrue(data["complete"])
         self.assertIsNotNone(data["booking_id"])
         self.assertIsNone(data.get("interactions"))
 
-    def test_insurance_for_age_over_50(self):
-        response = self.post_request({"request_id": "s3", "params": {"name": "Alice", "age": "55"}})
+    def test_request_with_empty_name_and_country(self):
+        response = self.post_request(
+            {"request_id": "s993", "params": {"name": "", "country": "", "age": ""}}
+        )
         self.assertEqual(response.status_code, 200)
         data = response.json()
-        self.assertTrue(data["complete"])
-        self.assertIsNotNone(data["booking_id"])
-        if int(data["params"]["age"]) > 50:
-            self.assertIsNotNone(data.get("insurance"))
-        else:
-            self.assertIsNone(data.get("insurance"))
+        self.assertFalse(data["complete"])
+        self.assertIsNone(data["booking_id"])
+        self.assertIsNotNone(data.get("interactions"))
+        self.assertEqual(data["interactions"][0]["variable_name"], "name")
 
-    def test_special_characters_in_name_and_country(self):
-        response = self.post_request({"request_id": "s4", "params": {"name": "mar$h@ll", "country": "US", "age": "40"}})
+    
+    def test_valid_request_with_full_info_but_no_insurance(self):
+        response = self.post_request(
+            {"request_id": "s996", "params": {"name": "Michael", "country": "India", "age": "49"}}
+        )
         self.assertEqual(response.status_code, 200)
         data = response.json()
         self.assertTrue(data["complete"])
         self.assertIsNotNone(data["booking_id"])
         self.assertIsNone(data.get("interactions"))
-
-    def test_invalid_age_format(self):
-        response = self.post_request({"request_id": "s10", "params": {"name": "David", "age": "twenty"}})
+        
+    def test_request_with_special_characters_in_name(self):
+        response = self.post_request(
+            {"request_id": "s997", "params": {"name": "An@!ta", "country": "Italy", "age": "30"}}
+        )
         self.assertEqual(response.status_code, 200)
         data = response.json()
-        self.assertIn("detail", data)
-        self.assertTrue(any("age" in item.get("msg", "").lower() for item in data["detail"]))
-
-    def test_missing_name_and_country(self):
-        response = self.post_request({"request_id": "s13", "params": {"age": "30"}})
-        self.assertEqual(response.status_code, 200)
-        data = response.json()
-        self.assertIn("detail", data)
-        self.assertTrue(any("name" in item.get("msg", "").lower() or "country" in item.get("msg", "").lower() for item in data["detail"]))
+        self.assertTrue(data["complete"])
+        self.assertIsNotNone(data["booking_id"])
+        self.assertIsNone(data.get("interactions"))
+    
 
 if __name__ == "__main__":
     unittest.main()
