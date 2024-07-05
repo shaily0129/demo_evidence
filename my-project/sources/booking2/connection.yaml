@@ -1,0 +1,5 @@
+# This file was automatically generated
+name: booking2
+type: duckdb
+options:
+  filename: my_duckdb_data2.db

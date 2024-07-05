@@ -1,0 +1,5 @@
+Test Name,Start Time,Duration (seconds)
+test_content_type,2024-07-03 12:46:42,0.151942
+test_response_content,2024-07-03 12:46:42,0.13869
+test_response_structure,2024-07-03 12:46:42,0.150302
+test_status_code,2024-07-03 12:46:42,0.140834

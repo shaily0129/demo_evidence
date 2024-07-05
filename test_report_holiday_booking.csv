@@ -1,0 +1,15 @@
+Test Name,Start Time,Duration (seconds)
+test_complete_info,2024-07-05 09:04:31,0.201026
+test_empty_params,2024-07-05 09:04:32,0.141324
+test_empty_request,2024-07-05 09:04:32,0.145611
+test_insurance_provided,2024-07-05 09:04:32,0.144597
+test_large_age_value,2024-07-05 09:04:32,0.137635
+test_missing_age,2024-07-05 09:04:32,0.140902
+test_missing_country,2024-07-05 09:04:32,0.146889
+test_missing_name,2024-07-05 09:04:32,0.162123
+test_missing_request_id,2024-07-05 09:04:33,0.145456
+test_name_and_country_provided,2024-07-05 09:04:33,0.145891
+test_name_provided,2024-07-05 09:04:33,0.140617
+test_no_more_modifications,2024-07-05 09:04:33,0.14212
+test_second_request,2024-07-05 09:04:33,0.14255
+test_special_characters_in_name,2024-07-05 09:04:33,0.146483

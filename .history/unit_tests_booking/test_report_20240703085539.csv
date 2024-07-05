@@ -1,0 +1,16 @@
+id,module,name,file,doc,markers,status,message,duration
+test_holiday_booking.py::TestHolidayBooking::test_complete_info,test_holiday_booking,test_complete_info,test_holiday_booking.py,,,passed,,0.15650433399999997
+test_holiday_booking.py::TestHolidayBooking::test_empty_params,test_holiday_booking,test_empty_params,test_holiday_booking.py,,,passed,,0.14432066600000004
+test_holiday_booking.py::TestHolidayBooking::test_empty_request,test_holiday_booking,test_empty_request,test_holiday_booking.py,,,passed,,0.142841
+test_holiday_booking.py::TestHolidayBooking::test_insurance_provided,test_holiday_booking,test_insurance_provided,test_holiday_booking.py,,,passed,,0.14190066600000018
+test_holiday_booking.py::TestHolidayBooking::test_large_age_value,test_holiday_booking,test_large_age_value,test_holiday_booking.py,,,passed,,0.13942454199999998
+test_holiday_booking.py::TestHolidayBooking::test_missing_age,test_holiday_booking,test_missing_age,test_holiday_booking.py,,,passed,,0.14669591699999995
+test_holiday_booking.py::TestHolidayBooking::test_missing_country,test_holiday_booking,test_missing_country,test_holiday_booking.py,,,passed,,0.14631137500000002
+test_holiday_booking.py::TestHolidayBooking::test_missing_name,test_holiday_booking,test_missing_name,test_holiday_booking.py,,,passed,,0.14112579199999997
+test_holiday_booking.py::TestHolidayBooking::test_missing_request_id,test_holiday_booking,test_missing_request_id,test_holiday_booking.py,,,passed,,0.12740937500000005
+test_holiday_booking.py::TestHolidayBooking::test_name_and_country_provided,test_holiday_booking,test_name_and_country_provided,test_holiday_booking.py,,,passed,,0.14960416600000004
+test_holiday_booking.py::TestHolidayBooking::test_name_provided,test_holiday_booking,test_name_provided,test_holiday_booking.py,,,passed,,0.14363349999999997
+test_holiday_booking.py::TestHolidayBooking::test_no_more_modifications,test_holiday_booking,test_no_more_modifications,test_holiday_booking.py,,,passed,,0.13938829200000002
+test_holiday_booking.py::TestHolidayBooking::test_second_request,test_holiday_booking,test_second_request,test_holiday_booking.py,,,passed,,0.14831408299999982
+test_holiday_booking.py::TestHolidayBooking::test_special_characters_in_name,test_holiday_booking,test_special_characters_in_name,test_holiday_booking.py,,,passed,,0.17088208299999996Date
+
