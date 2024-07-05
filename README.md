@@ -20,6 +20,17 @@ npm run sources
 npm run dev
   ```
 
+### Running Locally with real data:
+ ```shell
+python3 -u "my-project/real_data/update_tables.py" --request_id="" --name="" --country="" --age="" --insurance="";
+  ```
+_Enter the desired inputs(name,age,country,insurance) to display on the dashboard as shown below_ 
+
+ ```shell
+python3 -u "my-project/real_data/update_tables.py" --request_id="200" --name="ABC" --country="XYZ" --age="10" --insurance="False";
+  ```
+
+
 ## Reference- Intermediate Steps Commands:
 
 ### Running Coverage Reports of Unit Tests:
