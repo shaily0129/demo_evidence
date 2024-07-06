@@ -63,3 +63,15 @@ duckdb
 show tables;
 
   ```
+
+### References:
+
+[GITHUB](https://github.com/SimWerx/gt-demo-interaction)
+
+[GT Agent Services](http://100.25.26.186:8003/docs)
+
+[GT Service Tools Demo](http://100.25.26.186:8002/docs)
+
+[GT Service Status Page](http://35.153.66.97:8500/status/gt)
+
+
