@@ -1,6 +1,5 @@
 import duckdb
 
-
 def create_tables():
     conn = duckdb.connect("my-project/sources/new_booking/holiday_bookings.db")
     conn.execute(

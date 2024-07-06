@@ -10,6 +10,7 @@ class TestHolidayBooking(unittest.TestCase):
 
     base_url = "http://100.25.26.186:8002/tools/holiday/book"
     test_timings = {}
+    test_results = {}  # Dictionary to store test results
 
     def setUp(self):
         self.start_time = datetime.now()
@@ -830,34 +831,388 @@ class TestHolidayBooking(unittest.TestCase):
         self.assertIsNotNone(data["booking_id"])
         self.assertIsNone(data.get("interactions"))
 
+    def test_valid_request_with_boundary_age(self):
+        response = self.post_request(
+            {"request_id": "s998", "params": {"name": "John", "country": "USA", "age": "18"}}
+        )
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertTrue(data["complete"])
+        self.assertIsNotNone(data["booking_id"])
+        self.assertIsNone(data.get("interactions"))
 
+    def test_request_with_unsupported_country(self):
+        response = self.post_request(
+            {"request_id": "s999", "params": {"name": "Alice", "country": "Neverland", "age": "25"}}
+        )
+        self.assertEqual(response.status_code, 400)
 
+    def test_request_with_non_numeric_age(self):
+        response = self.post_request(
+            {"request_id": "s1000", "params": {"name": "Bob", "country": "France", "age": "twenty"}}
+        )
+        self.assertEqual(response.status_code, 500)
 
-def generate_csv_report():
-    csv_file = "test_report_holiday_booking.csv"
-    print(f"Generating CSV report: {csv_file}")
+    def test_valid_request_with_insurance_true(self):
+        response = self.post_request(
+            {"request_id": "s1001", "params": {"name": "Laura", "country": "Germany", "age": "35", "insurance": "Yes"}}
+        )
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertTrue(data["complete"])
+        self.assertIsNotNone(data["booking_id"])
+        self.assertIsNone(data.get("interactions"))
 
-    with open(
-        csv_file, "w", newline=""
-    ) as file:  # Use 'w' mode to overwrite and include headers
-        writer = csv.writer(file)
-        writer.writerow(
-            ["Test Name", "Start Time", "Duration (seconds)"]
-        )  # Writing headers
-        for test_name, timings in TestHolidayBooking.test_timings.items():
-            writer.writerow(
-                [test_name, timings["start_time"], timings["duration_seconds"]]
-            )
-            print(
-                f"Written row: {[test_name, timings['start_time'], timings['duration_seconds']]}"
+    def test_request_with_invalid_request_id_format(self):
+        response = self.post_request(
+            {"request_id": "invalid_id", "params": {"name": "Tom", "country": "USA", "age": "28"}}
+        )
+        self.assertEqual(response.status_code, 400)
 
+    def test_request_with_exceedingly_long_name(self):
+        long_name = "A" * 256  # Assuming a name longer than 255 characters is invalid
+        response = self.post_request(
+            {"request_id": "s1002", "params": {"name": long_name, "country": "Australia", "age": "45"}}
+        )
+        self.assertEqual(response.status_code, 400)
 
-            )
+    def test_request_with_exceedingly_long_country(self):
+        long_country = "A" * 256  # Assuming a country longer than 255 characters is invalid
+        response = self.post_request(
+            {"request_id": "s1003", "params": {"name": "Sarah", "country": long_country, "age": "30"}}
+        )
+        self.assertEqual(response.status_code, 400)
 
+    def test_request_with_empty_request_id(self):
+        response = self.post_request(
+            {"request_id": "", "params": {"name": "Nina", "country": "Spain", "age": "26"}}
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_valid_request_with_different_country(self):
+        response = self.post_request(
+            {"request_id": "s1005", "params": {"name": "Sophie", "country": "Netherlands", "age": "33"}}
+        )
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertTrue(data["complete"])
+        self.assertIsNotNone(data["booking_id"])
+        self.assertIsNone(data.get("interactions"))
+
+    def test_request_with_age_below_minimum_threshold(self):
+        response = self.post_request(
+            {"request_id": "s1006", "params": {"name": "Oscar", "country": "Belgium", "age": "0"}}
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_request_with_age_above_maximum_threshold(self):
+        response = self.post_request(
+            {"request_id": "s1007", "params": {"name": "Ella", "country": "Norway", "age": "15450"}}
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_request_with_valid_data_and_different_insurance_value(self):
+        response = self.post_request(
+            {"request_id": "s1009", "params": {"name": "Hannah", "country": "New Zealand", "age": "40", "insurance": "Yes"}}
+        )
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertTrue(data["complete"])
+        self.assertIsNotNone(data["booking_id"])
+        self.assertIsNone(data.get("interactions"))
+
+    def test_request_with_null_params(self):
+        response = self.post_request(
+            {"request_id": "s1010", "params": None}
+        )
+        self.assertEqual(response.status_code, 422)
+
+    def test_request_with_missing_request_id_field(self):
+        response = self.post_request(
+            {"params": {"name": "Emily", "country": "Denmark", "age": "27"}}  # Missing 'request_id'
+        )
+        self.assertEqual(response.status_code, 422)
+
+    def test_request_with_valid_data_and_special_characters_in_country(self):
+        response = self.post_request(
+            {"request_id": "s1011", "params": {"name": "Lucas", "country": "Brazil@2024", "age": "29"}}
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_request_with_null_age(self):
+        response = self.post_request(
+            {"request_id": "s1012", "params": {"name": "Emma", "country": "Japan", "age": None}}
+        )
+        self.assertEqual(response.status_code, 500)
+
+    def test_request_with_numeric_name(self):
+        response = self.post_request(
+            {"request_id": "s1013", "params": {"name": "12345", "country": "Argentina", "age": "35"}}
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_request_with_whitespace_name(self):
+        response = self.post_request(
+            {"request_id": "s1014", "params": {"name": "    ", "country": "Chile", "age": "40"}}
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_request_with_whitespace_country(self):
+        response = self.post_request(
+            {"request_id": "s1015", "params": {"name": "Henry", "country": "    ", "age": "32"}}
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_request_with_whitespace_age(self):
+        response = self.post_request(
+            {"request_id": "s1016", "params": {"name": "Claire", "country": "Portugal", "age": "    "}}
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_request_with_negative_age(self):
+        response = self.post_request(
+            {"request_id": "s1017", "params": {"name": "David", "country": "Switzerland", "age": "-5"}}
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_request_with_zero_age(self):
+        response = self.post_request(
+            {"request_id": "s1018", "params": {"name": "Zoe", "country": "Finland", "age": "0"}}
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_request_with_decimal_age(self):
+        response = self.post_request(
+            {"request_id": "s1019", "params": {"name": "Eva", "country": "Iceland", "age": "29.5"}}
+        )
+        self.assertEqual(response.status_code, 500)
+
+    def test_request_with_special_characters_in_country(self):
+        response = self.post_request(
+            {"request_id": "s1020", "params": {"name": "Gavin", "country": "Mex@ico", "age": "44"}}
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_request_with_insurance_field_only(self):
+        response = self.post_request(
+            {"request_id": "s1022", "params": {"insurance": "Yes"}}
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_request_with_boolean_age(self):
+        response = self.post_request(
+            {"request_id": "s1023", "params": {"name": "Tina", "country": "Japan", "age": True}}
+        )
+        self.assertEqual(response.status_code, 500)
+
+    def test_request_with_empty_request_id_and_params(self):
+        response = self.post_request(
+            {"request_id": "", "params": {}}
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_request_with_missing_name_field(self):
+        response = self.post_request(
+            {"request_id": "s1025", "params": {"country": "Canada", "age": "25"}}
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_request_with_minimum_valid_age(self):
+        response = self.post_request(
+            {"request_id": "s1027", "params": {"name": "Leo", "country": "UK", "age": "1"}}
+        )
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertTrue(data["complete"])
+        self.assertIsNotNone(data["booking_id"])
+        self.assertIsNone(data.get("interactions"))
+
+    def test_request_with_uppercase_country(self):
+        response = self.post_request(
+            {"request_id": "s1028", "params": {"name": "Samantha", "country": "USA", "age": "45"}}
+        )
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertTrue(data["complete"])
+        self.assertIsNotNone(data["booking_id"])
+        self.assertIsNone(data.get("interactions"))
+
+    def test_request_with_lowercase_country(self):
+        response = self.post_request(
+            {"request_id": "s1029", "params": {"name": "Martin", "country": "usa", "age": "37"}}
+        )
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertTrue(data["complete"])
+        self.assertIsNotNone(data["booking_id"])
+        self.assertIsNone(data.get("interactions"))
+
+    def test_request_with_mixed_case_country(self):
+        response = self.post_request(
+            {"request_id": "s1030", "params": {"name": "Laura", "country": "UsA", "age": "29"}}
+        )
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertTrue(data["complete"])
+        self.assertIsNotNone(data["booking_id"])
+        self.assertIsNone(data.get("interactions"))
+
+    def test_request_with_special_characters_in_name_field(self):
+        response = self.post_request(
+            {"request_id": "s1031", "params": {"name": "John_Doe", "country": "Italy", "age": "31"}}
+        )
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertTrue(data["complete"])
+        self.assertIsNotNone(data["booking_id"])
+        self.assertIsNone(data.get("interactions"))
+
+    def test_request_with_no_name_and_valid_country_age(self):
+        response = self.post_request(
+            {"request_id": "s1032", "params": {"name": "", "country": "Brazil", "age": "23"}}
+        )
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertFalse(data["complete"])
+        self.assertIsNone(data["booking_id"])
+        self.assertIsNotNone(data.get("interactions"))
+
+    def test_request_with_no_country_and_valid_name_age(self):
+        response = self.post_request(
+            {"request_id": "s1033", "params": {"name": "Kim", "country": "", "age": "41"}}
+        )
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertFalse(data["complete"])
+        self.assertIsNone(data["booking_id"])
+        self.assertIsNotNone(data.get("interactions"))
+
+    def test_request_with_valid_name_and_country_no_age(self):
+        response = self.post_request(
+            {"request_id": "s1035", "params": {"name": "Diana", "country": "Germany", "age": ""}}
+        )
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertFalse(data["complete"])
+        self.assertIsNone(data["booking_id"])
+        self.assertIsNotNone(data.get("interactions"))
+
+    def test_request_with_country_as_number(self):
+        response = self.post_request(
+            {"request_id": "s1036", "params": {"name": "Nina", "country": "123", "age": "36"}}
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_request_with_valid_name_and_country_no_insurance(self):
+        response = self.post_request(
+            {"request_id": "s1037", "params": {"name": "Oliver", "country": "Denmark", "age": "28"}}
+        )
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertTrue(data["complete"])
+        self.assertIsNotNone(data["booking_id"])
+        self.assertIsNone(data.get("interactions"))
+
+    def test_request_with_empty_name_and_country_and_valid_age(self):
+        response = self.post_request(
+            {"request_id": "s1038", "params": {"name": "", "country": "", "age": "34"}}
+        )
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertFalse(data["complete"])
+        self.assertIsNone(data["booking_id"])
+        self.assertIsNotNone(data.get("interactions"))
+
+    def test_request_with_only_valid_insurance_field(self):
+        response = self.post_request(
+            {"request_id": "s1039", "params": {"insurance": "No"}}
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_request_with_null_name(self):
+        response = self.post_request(
+            {"request_id": "s1040", "params": {"name": None, "country": "Australia", "age": "27"}}
+        )
+        self.assertEqual(response.status_code, 500)
+
+    def test_request_with_null_country(self):
+        response = self.post_request(
+            {"request_id": "s1041", "params": {"name": "John", "country": None, "age": "27"}}
+        )
+        self.assertEqual(response.status_code, 500)
+
+    def test_request_with_age_as_boolean(self):
+        response = self.post_request(
+            {"request_id": "s1042", "params": {"name": "Emma", "country": "Italy", "age": False}}
+        )
+        self.assertEqual(response.status_code, 500)
+
+    def test_request_with_empty_request_body(self):
+        response = self.post_request({})
+        self.assertEqual(response.status_code, 422)
+
+    def test_request_with_invalid_json_format(self):
+        response = requests.post(
+            self.base_url,
+            headers={"accept": "application/json", "Content-Type": "application/json"},
+            data="invalid_json_format"
+        )
+        self.assertEqual(response.status_code, 422)
+
+class CustomTestResult(unittest.TextTestResult):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.test_results = {}
+
+    def addSuccess(self, test):
+        super().addSuccess(test)
+        self.test_results[test.id().split(".")[-1]] = "pass"
+
+    def addFailure(self, test, err):
+        super().addFailure(test, err)
+        self.test_results[test.id().split(".")[-1]] = "fail"
+
+    def addError(self, test, err):
+        super().addError(test, err)
+        self.test_results[test.id().split(".")[-1]] = "error"
+
+class CustomTestRunner(unittest.TextTestRunner):
+    def _makeResult(self):
+        return CustomTestResult(self.stream, self.descriptions, self.verbosity)
+
+def generate_csv_report(test_timings, test_results):
+    filename = "test_report_holiday_booking.csv"
+    fieldnames = ["Test Case Name", "Start Time", "Duration (seconds)", "Status"]
+
+    existing_tests = set()
+
+    # Read existing test case names from the CSV file
+    if os.path.isfile(filename):
+        with open(filename, mode="r", newline="") as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                existing_tests.add(row["Test Case Name"])
+
+    with open(filename, mode="a", newline="") as file:
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
+
+        # Write header only if file is empty
+        if not os.path.isfile(filename) or os.stat(filename).st_size == 0:
+            writer.writeheader()
+
+        for test_name, timing in test_timings.items():
+            if test_name not in existing_tests:  # Check if test case already exists
+                status = test_results.get(test_name, "unknown")
+                writer.writerow({
+                    "Test Case Name": test_name,
+                    "Start Time": timing["start_time"],
+                    "Duration (seconds)": timing["duration_seconds"],
+                    "Status": status
+                })
+                existing_tests.add(test_name)  # Add to set to prevent duplicates
 
 if __name__ == "__main__":
-    unittest.main(
-        exit=False
-    )  # Make sure to use exit=False so that the script continues after tests
-    generate_csv_report()
-    print("CSV report generation completed.")
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestHolidayBooking)
+    runner = CustomTestRunner()
+    result = runner.run(suite)
+    generate_csv_report(TestHolidayBooking.test_timings, result.test_results)
