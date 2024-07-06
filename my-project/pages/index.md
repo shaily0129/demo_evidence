@@ -7,6 +7,7 @@ title: Welcome to API Services
 
 </Details>
 
+<Details title='Services '>
 <Accordion>
   <AccordionItem title="Content Service">
 
@@ -35,95 +36,21 @@ Depending on the category, messages classified under `greetings` or `other` are 
 This service helps to book a holiday by entering age, name, and country under a unique request id. If you're aged 50 or older, you can also specify your insurance preference. After you submit these details, it confirms your booking and provides a unique <b>booking ID</b> for your holiday reservation.
 
   </AccordionItem>
+
 </Accordion>
+</Details>
+
+<Details title='References '>
+
+- [Github](https://github.com/SimWerx/gt-demo-interaction)
+
+- [GT Agent Services](http://100.25.26.186:8003/docs)
+
+- [GT Service Tools Demo](http://100.25.26.186:8002/docs)
+
+- [GT Service Status Page](http://35.153.66.97:8500/status/gt)
 
 
-<!-- Query to get total duration and number of tests per month -->
-```sql table1
-SELECT
-    DATE_TRUNC('month', date) AS month,
-    SUM(duration) AS total_duration,
-    COUNT(*) AS num_tests,
-    AVG(duration) AS avg_duration
-FROM test_database.test_data1
-GROUP BY month
-ORDER BY month;
-```
-
-<!-- 
- Query to get total duration and number of tests per day -->
-```sql table2
-SELECT
-    date,
-    SUM(duration) AS total_duration,
-    COUNT(*) AS num_tests,
-    AVG(duration) AS avg_duration
-FROM test_database.test_data1
-GROUP BY date
-ORDER BY date;
-```
-
-```sql table3
-SELECT
-    date,
-    COUNT(*) AS num_tests,
-    SUM(duration) AS total_duration,
-    AVG(duration) AS avg_duration,
-    MIN(duration) AS min_duration,
-    MAX(duration) AS max_duration
-FROM test_database.test_data1
-GROUP BY date
-ORDER BY date;
-```
-
-<DataTable 
-data={table3}
-/>
-
-<BarChart
-    data={table3}
-    title="Average Test Duration Over Time"
-    x="date"
-    y="avg_duration"
-    tooltip={["module", "name", "file", "doc", "message"]}
-    xLabel="Date"
-    yLabel="Average Duration (s)"
-    color="#4CAF50"
-    grid={{ stroke: "#ccc" }}
-/>
-
-<ScatterPlot
-    data={table3}
-    title="Test Duration Analysis Over Time"
-    x="date"
-    y="avg_duration"
-    xFmt="%Y-%m-%d"
-    tooltip={["module", "name", "file", "doc", "message"]}
-    xLabel="Date"
-    yLabel="Average Duration (s)"
-    color="#FF5722"
-    grid={{ stroke: "#ccc" }}
-/>
+</Details>
 
 
-<!-- -- Line chart to visualize the total duration of tests by month -->
-<LineChart
-    data={table1}
-    x="month"
-    y="total_duration"
-    xLabel="Month"
-    yLabel="Total Duration (seconds)"
-    title="Total Duration of Tests by Month"
-    tooltip="Total Duration"
-/>
-
-<!-- -- Bar chart to visualize the average duration of tests by month -->
-<BarChart
-    data={table1}
-    x="month"
-    y="avg_duration"
-    xLabel="Month"
-    yLabel="Average Duration (seconds)"
-    title="Average Duration of Tests by Month"
-    tooltip="Avg Duration"
-/>
