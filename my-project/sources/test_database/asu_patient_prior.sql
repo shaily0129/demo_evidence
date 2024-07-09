@@ -1,0 +1,1 @@
+select * from asu_patient_prior;
