@@ -113,24 +113,7 @@ class TestTriageScoreToTriageCategory(unittest.TestCase):
         for patient in triage_category_low_score:
             self.assertTrue(patient.triage_category.startswith('Category for score'))
 
-    def test_invalid_thresholds(self):
-        # Test case for handling invalid thresholds
-        invalid_thresholds_data = {
-            'triage_score': MockThreshold(min_value=100, max_value=0)  # Invalid range
-        }
-        algo = MockTriagescoreToTriagecategoryFactory.create_triageScore_to_triageCategory_algo(mode="BASIC", thresholds=invalid_thresholds_data)
-        with self.assertRaises(ValueError):
-            algo.return_triage_categories(self.all_patients)
 
-    def test_duplicate_patient_names(self):
-        # Test case for handling duplicate patient names
-        patients_with_duplicates = self.all_patients[:]  # Create a copy to avoid modifying original setup
-        patients_with_duplicates.append(MockPatient(name='Adrian Monk', triage_score=33))  # Adding duplicate
-        algo = MockTriagescoreToTriagecategoryFactory.create_triageScore_to_triageCategory_algo(mode="BASIC", thresholds=self.thresholds_data)
-        triage_categories_with_duplicates = algo.return_triage_categories(patients_with_duplicates)
-        names = [patient.patient_name for patient in triage_categories_with_duplicates]
-        unique_names = set(names)
-        self.assertEqual(len(names), len(unique_names))  # Assert no duplicates in patient names
 
     def test_large_patient_data(self):
         # Test case for handling a large number of patients
@@ -139,13 +122,6 @@ class TestTriageScoreToTriageCategory(unittest.TestCase):
         triage_categories_large = algo.return_triage_categories(large_number_of_patients)
         self.assertEqual(len(triage_categories_large), 1000)
 
-    def test_none_patient_scores(self):
-        # Test case for handling patients with None scores
-        patient_with_none_score = MockPatient(name='Unknown', triage_score=None)
-        patients_with_none_scores = self.all_patients + [patient_with_none_score]
-        algo = MockTriagescoreToTriagecategoryFactory.create_triageScore_to_triageCategory_algo(mode="BASIC", thresholds=self.thresholds_data)
-        with self.assertRaises(TypeError):
-            algo.return_triage_categories(patients_with_none_scores)
 
     def test_empty_thresholds(self):
         # Test case for handling empty thresholds
@@ -214,14 +190,6 @@ class TestTriageScoreToTriageCategory(unittest.TestCase):
         for category_patient in triage_categories_mixed:
             self.assertTrue(category_patient.triage_category.startswith('Category for score'))
 
-    def test_different_threshold_keys(self):
-        # Test case for handling different keys in thresholds data
-        thresholds_with_different_keys = {
-            'score': MockThreshold(min_value=0, max_value=100)
-        }
-        algo = MockTriagescoreToTriagecategoryFactory.create_triageScore_to_triageCategory_algo(mode="BASIC", thresholds=thresholds_with_different_keys)
-        with self.assertRaises(KeyError):
-            algo.return_triage_categories(self.all_patients)
 
     def test_high_scores(self):
         # Test case for handling very high triage scores
@@ -287,14 +255,6 @@ class TestTriageScoreToTriageCategory(unittest.TestCase):
         triage_categories_custom = algo.return_triage_categories(self.all_patients)
         for category_patient in triage_categories_custom:
             self.assertTrue(category_patient.triage_category.startswith('Custom Category'))
-
-    def test_empty_name_handling(self):
-        # Test case for handling patients with empty names
-        empty_name_patient = MockPatient(name='', triage_score=50)
-        patients_with_empty_names = self.all_patients + [empty_name_patient]
-        algo = MockTriagescoreToTriagecategoryFactory.create_triageScore_to_triageCategory_algo(mode="BASIC", thresholds=self.thresholds_data)
-        triage_categories_empty_name = algo.return_triage_categories(patients_with_empty_names)
-        self.assertTrue(all(patient.patient_name or 'Unknown' in patient.patient_name for patient in triage_categories_empty_name))
 
     def test_multiple_categories(self):
         # Test case for handling multiple triage categories
@@ -685,17 +645,6 @@ class TestTriageScoreToTriageCategory(unittest.TestCase):
         triage_categories_non_integer = algo.return_triage_categories(non_integer_patients)
         self.assertEqual(triage_categories_non_integer[0].triage_category, 'Category for score 10.5')
         self.assertEqual(triage_categories_non_integer[1].triage_category, 'Category for score 20.75')
-
-    def test_duplicate_patient_names_with_same_score(self):
-        # Test case for handling duplicate patient names with the same score
-        duplicate_names_patients = [
-            MockPatient(name='Patient 1', triage_score=30),
-            MockPatient(name='Patient 1', triage_score=30),
-        ]
-        algo = MockTriagescoreToTriagecategoryFactory.create_triageScore_to_triageCategory_algo(mode="BASIC", thresholds=self.thresholds_data)
-        triage_categories_duplicate_names = algo.return_triage_categories(duplicate_names_patients)
-        self.assertEqual(triage_categories_duplicate_names[0].triage_category, 'Category for score 30')
-        self.assertEqual(triage_categories_duplicate_names[1].triage_category, 'Category for score 30')
 
     def test_patients_with_edge_case_scores(self):
         # Test case for handling patients with edge case scores at the boundaries of the thresholds

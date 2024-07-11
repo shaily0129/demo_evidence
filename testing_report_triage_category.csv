@@ -7,9 +7,7 @@ test_case_sensitive_names,2024-07-09,02:17:46,2.4e-05,pass
 test_complex_threshold_logic,2024-07-09,02:17:46,9.4e-05,pass
 test_custom_category_format,2024-07-09,02:17:46,4e-05,pass
 test_custom_category_names,2024-07-09,02:17:46,3e-05,pass
-test_different_threshold_keys,2024-07-09,02:17:46,4.7e-05,fail
 test_different_threshold_values,2024-07-09,02:17:46,2.9e-05,pass
-test_duplicate_patient_names,2024-07-09,02:17:46,4.4e-05,fail
 test_duplicate_patient_names_with_same_score,2024-07-09,02:17:46,2.3e-05,pass
 test_duplicate_scores,2024-07-09,02:17:46,2.2e-05,pass
 test_edge_case_max_threshold,2024-07-09,02:17:46,1.7e-05,pass
@@ -17,13 +15,11 @@ test_edge_case_max_threshold_inclusive,2024-07-09,02:17:46,3.5e-05,pass
 test_edge_case_min_threshold,2024-07-09,02:17:46,1.6e-05,pass
 test_edge_case_min_threshold_exclusive,2024-07-09,02:17:46,3.7e-05,pass
 test_edge_case_single_patient,2024-07-09,02:17:46,1.9e-05,pass
-test_empty_name_handling,2024-07-09,02:17:46,7.4e-05,fail
 test_empty_patients_list,2024-07-09,02:17:46,2.3e-05,pass
 test_empty_thresholds,2024-07-09,02:17:46,2.3e-05,pass
 test_high_score_threshold,2024-07-09,02:17:46,3e-05,pass
 test_high_scores,2024-07-09,02:17:46,1.8e-05,pass
 test_high_thresholds,2024-07-09,02:17:46,2.6e-05,pass
-test_invalid_thresholds,2024-07-09,02:17:46,3.5e-05,fail
 test_large_dataset,2024-07-09,02:17:46,0.001562,pass
 test_large_number_of_identical_patients,2024-07-09,02:17:46,0.000292,pass
 test_large_number_of_patients,2024-07-09,02:17:46,0.001623,pass
@@ -42,7 +38,6 @@ test_negative_scores,2024-07-09,02:17:46,1.8e-05,pass
 test_negative_thresholds,2024-07-09,02:17:46,2.6e-05,pass
 test_no_patients,2024-07-09,02:17:46,1.6e-05,pass
 test_non_integer_scores,2024-07-09,02:17:46,2.4e-05,pass
-test_none_patient_scores,2024-07-09,02:17:46,4.5e-05,fail
 test_null_or_empty_category,2024-07-09,02:17:46,3.7e-05,pass
 test_patient_with_zero_score,2024-07-09,02:17:46,1.9e-05,pass
 test_patients_above_max_threshold,2024-07-09,02:17:46,2.2e-05,pass

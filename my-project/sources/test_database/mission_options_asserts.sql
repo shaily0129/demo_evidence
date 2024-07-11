@@ -1,0 +1,1 @@
+select * from mission_options_asserts;

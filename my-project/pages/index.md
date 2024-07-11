@@ -18,18 +18,20 @@ Each page has a link that you can click to view it. This helps to easily access 
   </AccordionItem>
   <AccordionItem title="Rating Service">
 
-    This service allows users to rate their service experience. By sending a request with their user ID, rating, and comment, users can provide feedback.
-
-This confirms receipt with a <b>message</b> including the date and time of the rating. 
+This service allows users to rate their service experience. By sending a request with their user ID, rating, and comment, users can provide feedback.
+    
+This confirms receipt with a <b>message</b> including the date and time of the rating.
 
   </AccordionItem>
   <AccordionItem title="Agent Interaction">
+
 
     This service allows users to submit messages or questions, which are then classified into different categories such as <b>"triage"</b> for medical emergencies, <b>"evacuation planning"</b> for disaster scenarios, <b>"greetings"</b> for social interactions, and <b>"other"</b> for general queries.
 
 Depending on the category, messages classified under `greetings` or `other` are handled by a generic agent utilizing _LLM_ tools to provide knowledge-based or generic responses. For messages related to `evacuation plans` or `medical` issues, they are routed to a Prediction Guard agent. This agent accesses data from a _RAG_(Retrieve, Augment, Generate) model that has pre-fetched knowledge. It offers detailed steps and even provides the relevant page numbers from the casualty care guideline PDF, ensuring users receive accurate and actionable information in critical situations.
 
   </AccordionItem>
+
 
   <AccordionItem title="Holiday Booking Service">
 
@@ -38,6 +40,25 @@ This service helps to book a holiday by entering age, name, and country under a 
   </AccordionItem>
 
 </Accordion>
+</Details>
+
+<Details title='Apps'>
+
+- Mission Final Asset
+
+- Mission Final CF
+
+- Mission Options Asset
+
+- Mission Options CF
+
+- Patient Matrix
+
+- Triage Category 
+
+- Triage Score
+
+
 </Details>
 
 <Details title='References '>
@@ -50,7 +71,4 @@ This service helps to book a holiday by entering age, name, and country under a 
 
 - [GT Service Status Page](http://35.153.66.97:8500/status/gt)
 
-
 </Details>
-
-

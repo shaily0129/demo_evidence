@@ -1,0 +1,25 @@
+Test Case Name,Start Date,Start Time,Duration (seconds),Status
+test_assign_highest_score,2024-07-11,09:15:59,0.23172,pass
+test_assign_to_multiple_facilities,2024-07-11,09:15:59,0.23185,pass
+test_assign_to_single_facility,2024-07-11,09:15:59,0.231938,pass
+test_duplicate_facilities,2024-07-11,09:15:59,0.232036,pass
+test_duplicate_patient_names,2024-07-11,09:15:59,0.232162,pass
+test_duplicate_patients,2024-07-11,09:15:59,0.232244,pass
+test_facilities_with_special_characters,2024-07-11,09:15:59,0.232314,pass
+test_high_triage_score,2024-07-11,09:15:59,0.232384,pass
+test_high_triage_score_reassignment,2024-07-11,09:15:59,0.232452,pass
+test_highest_triage_score,2024-07-11,09:15:59,0.232524,pass
+test_identical_triage_scores,2024-07-11,09:15:59,0.232607,pass
+test_large_number_of_missions,2024-07-11,09:15:59,0.232856,pass
+test_long_patient_name,2024-07-11,09:15:59,0.23292,pass
+test_low_triage_score_assignment,2024-07-11,09:15:59,0.232983,pass
+test_lowest_triage_score,2024-07-11,09:15:59,0.233049,pass
+test_mission_assignment,2024-07-11,09:15:59,0.233128,pass
+test_mission_creation,2024-07-11,09:15:59,0.233192,pass
+test_multiple_facilities_assignment,2024-07-11,09:15:59,0.233258,pass
+test_multiple_facility_assignment,2024-07-11,09:15:59,0.233319,pass
+test_negative_triage_score,2024-07-11,09:15:59,0.233473,pass
+test_no_missions,2024-07-11,09:15:59,0.233576,pass
+test_random_facility_assignment,2024-07-11,09:15:59,0.236846,pass
+test_single_facility_assignment,2024-07-11,09:15:59,0.236935,pass
+test_zero_triage_score,2024-07-11,09:15:59,0.237005,pass

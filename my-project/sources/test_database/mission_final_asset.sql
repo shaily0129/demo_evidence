@@ -1,0 +1,1 @@
+select * from mission_final_asset;

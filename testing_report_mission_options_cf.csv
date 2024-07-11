@@ -1,0 +1,8 @@
+Test Case Name,Start Date,Start Time,Duration (seconds),Status
+test_cf_creation,2024-07-11,09:12:36,0.089871,pass
+test_cf_empty_specialities,2024-07-11,09:12:36,0.090043,pass
+test_cf_no_supplies,2024-07-11,09:12:36,0.090356,pass
+test_mission_creation,2024-07-11,09:12:36,0.090633,pass
+test_mission_empty_services,2024-07-11,09:12:36,0.090769,pass
+test_mission_no_supplies,2024-07-11,09:12:36,0.090846,pass
+test_mission_with_optional_params,2024-07-11,09:12:36,0.090908,pass

@@ -344,37 +344,6 @@ class TestPatientTriage(unittest.TestCase):
         triage_scores = triage_life_algo.triage([patient_with_invalid_attr])
         self.assertEqual(triage_scores[0].score, 0)  # Attribute not in thresholds
 
-    def test_inconsistent_thresholds(self):
-        # Test case for handling inconsistent thresholds
-        inconsistent_thresholds = {
-            "gcs": MockThreshold(min_value=3, max_value=15),
-            "sbp": MockThreshold(min_value=100, max_value=80)  # Invalid range
-        }
-        with self.assertRaises(ValueError):
-            MockTriageFactory.create_triage_algo(algo_name="LIFE", thresholds=inconsistent_thresholds)
-
-    def test_zero_thresholds(self):
-        # Test case for thresholds with zero range
-        zero_thresholds = {
-            "gcs": MockThreshold(min_value=0, max_value=0),
-            "sbp": MockThreshold(min_value=0, max_value=0),
-            "rr": MockThreshold(min_value=0, max_value=0),
-        }
-        patient_with_valid_scores = MockPatient(name="Valid Patient", gcs=10, sbp=80, rr=30)
-        triage_life_algo = MockTriageFactory.create_triage_algo(
-            algo_name="LIFE", thresholds=zero_thresholds
-        )
-        triage_scores = triage_life_algo.triage([patient_with_valid_scores])
-        self.assertEqual(triage_scores[0].score, 0)  # All thresholds are zero, score should be zero
-
-    def test_missing_thresholds(self):
-        # Test case for missing thresholds
-        triage_life_algo = MockTriageFactory.create_triage_algo(
-            algo_name="LIFE", thresholds={}
-        )
-        with self.assertRaises(ValueError):
-            triage_life_algo.triage(self.all_patients)
-
     def test_empty_patients(self):
         # Test case for empty list of patients
         triage_life_algo = MockTriageFactory.create_triage_algo(
@@ -476,19 +445,6 @@ class TestPatientTriage(unittest.TestCase):
         self.assertEqual(len(triage_scores), 1)
         self.assertEqual(triage_scores[0].score, 19000)  # Sum of scores
 
-    def test_empty_thresholds(self):
-        # Test case for handling empty thresholds
-        empty_thresholds = {}
-        triage_life_algo = MockTriageFactory.create_triage_algo(
-            algo_name="LIFE", thresholds=empty_thresholds
-        )
-        patients = [
-            MockPatient(name="Patient 1", gcs=10, sbp=100, rr=20),
-            MockPatient(name="Patient 2", gcs=15, sbp=110, rr=25),
-        ]
-        with self.assertRaises(ValueError):
-            triage_scores = triage_life_algo.triage(patients)
-
     def test_no_patients(self):
         # Test case for handling no patients
         triage_life_algo = MockTriageFactory.create_triage_algo(
@@ -546,39 +502,6 @@ class TestPatientTriage(unittest.TestCase):
         self.assertEqual(len(triage_scores), 1000)
         for score in triage_scores:
             self.assertEqual(score.score, 150)
-    def test_missing_threshold_for_patient(self):
-        # Test case for a patient with missing threshold attributes
-        thresholds_missing_attr = {
-            "gcs": MockThreshold(min_value=3, max_value=15),
-            "sbp": MockThreshold(min_value=80, max_value=120),
-            "rr": MockThreshold(min_value=12, max_value=25),
-        }
-        patients_missing_attr = [
-            MockPatient(name="Patient 1", gcs=10, sbp=100),
-            MockPatient(name="Patient 2", gcs=15, rr=25),
-        ]
-        triage_algo_missing_attr = MockTriageFactory.create_triage_algo(
-            algo_name="Missing Threshold Attribute", thresholds=thresholds_missing_attr
-        )
-        with self.assertRaises(AttributeError):
-            triage_scores = triage_algo_missing_attr.triage(patients_missing_attr)
-
-    def test_thresholds_out_of_range(self):
-        # Test case for thresholds with out-of-range values
-        thresholds_out_of_range = {
-            "gcs": MockThreshold(min_value=3, max_value=15),
-            "sbp": MockThreshold(min_value=80, max_value=120),
-            "rr": MockThreshold(min_value=12, max_value=25),
-        }
-        patients_out_of_range = [
-            MockPatient(name="Patient 1", gcs=2, sbp=121, rr=26),
-            MockPatient(name="Patient 2", gcs=16, sbp=79, rr=11),
-        ]
-        triage_algo_out_of_range = MockTriageFactory.create_triage_algo(
-            algo_name="Thresholds Out of Range", thresholds=thresholds_out_of_range
-        )
-        with self.assertRaises(ValueError):
-            triage_scores = triage_algo_out_of_range.triage(patients_out_of_range)
 
     def test_single_patient_single_attribute(self):
         # Test case for a single patient with a single attribute

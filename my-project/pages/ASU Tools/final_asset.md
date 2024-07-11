@@ -2,7 +2,7 @@
 SELECT
 *
 FROM
-    test_database.asu_triage_score;
+    test_database.mission_final_asset;
 ```
 
 ```sql table2
@@ -10,7 +10,7 @@ WITH test_summary AS (
     SELECT
         "Status",
         COUNT(*) AS count
-    FROM test_database.asu_triage_score
+    FROM test_database.mission_final_asset
     WHERE "Status" IN ('pass', 'fail')  -- Ensure to filter only pass and fail statuses
     GROUP BY "Status"
 )
@@ -20,6 +20,7 @@ SELECT
     count AS value
 FROM test_summary;
 ```
+
 <ECharts
     config={{
         tooltip: {
@@ -30,7 +31,7 @@ FROM test_summary;
                 name: 'Test Pass/Fail Distribution',
                 type: 'pie',
                 data: [
-                    { name: 'Pass', value: 31 },  // Replace with actual counts from query
+                    { name: 'Pass', value: 48 },  // Replace with actual counts from query
                     { name: 'Fail', value: 0 }   // Replace with actual counts from query
                 ],
             },
@@ -46,7 +47,6 @@ FROM test_summary;
     yAxisTitle="Duration (seconds)"  
     xAxisTitle="Test Case Name" 
 />
-
 <ScatterPlot
     data={table1} 
     title="Test Case Performance"

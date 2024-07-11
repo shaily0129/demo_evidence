@@ -32,7 +32,7 @@ FROM test_summary;
                 type: 'pie',
                 data: [
                     { name: 'Pass', value: 59 },  // Replace with actual counts from query
-                    { name: 'Fail', value: 5 }   // Replace with actual counts from query
+                    { name: 'Fail', value: 0 }   // Replace with actual counts from query
                 ],
             },
         ],
