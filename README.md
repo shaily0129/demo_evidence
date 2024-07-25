@@ -12,7 +12,23 @@
 - DuckDB (for data storage and querying)
 - Evidence (for reporting and data visualization)
 
-### Running Locally:
+### Running unit tests:
+ ```shell
+pip install pytest
+pytest
+  ```
+- if testing to be done with dedicated folder:
+     ```shell
+    cd unit_tests_ASU_tools
+    pytest
+     ```
+    
+    ```shell
+    cd unit_tests_booking
+    pytest
+    ```
+
+### Running Evidence locally:
  ```shell
 cd my-project
 npm install
